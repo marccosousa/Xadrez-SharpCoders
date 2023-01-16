@@ -16,6 +16,8 @@ namespace XadrezConsole
                     Console.Clear();
                     Tela.ImprimeTabuleiro(partida.Tab);
                     Console.WriteLine();
+                    Console.WriteLine("Turno: " + partida.Turno);
+                    Console.WriteLine("Aguardando jogada da peça: " + partida.JogadorAtual);
                     Console.Write("Posição da peça de origem: ");
                     Posicao origem = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
                     bool[,] posicoesPossiveis = partida.Tab.RetornaPecaPosicao(origem).MovimentosPossiveis();
@@ -26,7 +28,7 @@ namespace XadrezConsole
                     Console.WriteLine();
                     Console.Write("Posição de destino da peça: ");
                     Posicao destino = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
-                    partida.RealizaMovimento(origem, destino);
+                    partida.RealizaJogada(origem, destino);
                 }
             } 
             catch (TabuleiroException e)

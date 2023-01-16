@@ -4,8 +4,8 @@ namespace Xadrez.Jogo
     class PartidaXadrez
     {
         public Tabuleiro.Tabuleiro Tab { get; private set; }
-        public int Turno { get; set; }
-        public Cor JogadorAtual { get; set; }
+        public int Turno { get; private set; }
+        public Cor JogadorAtual { get; private set; }
         public bool Terminada { get; private set; }
 
         public PartidaXadrez()
@@ -23,6 +23,26 @@ namespace Xadrez.Jogo
             p.IncrementarMovimento();
             Peca pecaCapturada = Tab.RetirarPeca(destino); // Ainda não estou usando para nada. Vai servir para mostrar no console as peças capturadas
             Tab.ColocarPeca(p, destino); 
+        }
+
+        public void RealizaJogada(Posicao origem, Posicao destino)
+        {
+            RealizaMovimento(origem, destino);
+            Turno++;
+            MudaJogador(); 
+
+        }
+
+        private void MudaJogador()
+        {
+            if(JogadorAtual == Cor.BRANCA)
+            {
+                JogadorAtual = Cor.PRETA; 
+            }
+            else
+            {
+                JogadorAtual = Cor.BRANCA;
+            }
         }
 
         private void ColocarPecas()
