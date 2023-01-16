@@ -21,7 +21,7 @@
         }
 
         public abstract bool[,] MovimentosPossiveis();
-        // Fazendo um método abstrato para aproveitar o métodos nas subclasses.
-        // A classe Peca ficou abstrata a partir de agora. 
+        // Fazendo um método abstrato para aproveitar o método nas subclasses.
+        
     }
 }
