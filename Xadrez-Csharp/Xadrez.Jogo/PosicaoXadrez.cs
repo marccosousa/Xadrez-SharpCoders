@@ -3,6 +3,7 @@ namespace Xadrez.Jogo
 {
     class PosicaoXadrez
     {
+        //Essa classe tem o método que faz a conversão da posição de xadrez para uma posição que é aceita na matriz.
         public char Coluna { get; set; }
         public int Linha {get; set; }
 

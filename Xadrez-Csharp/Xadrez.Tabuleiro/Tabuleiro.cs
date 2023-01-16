@@ -1,7 +1,7 @@
 ﻿namespace Xadrez.Tabuleiro
 {
     class Tabuleiro
-    {   //Instanciar um tabuleiro com a qtd de linhas e colunas. Depois, uma nova matriz de Peca no construtor;
+    {   //Criar um tabuleiro com a qtd de linhas e colunas. Depois, uma nova matriz de Peca no construtor;
         public int Linhas { get; set; }
         public int Colunas { get; set; }
         public Peca[,] Pecas { get; private set; }
@@ -57,6 +57,18 @@
         {
             ValidarPosicao(pos);
             return RetornaPecaPosicao(pos) != null;  
+        }
+
+        public Peca RetirarPeca(Posicao pos)
+        {
+            if (RetornaPecaPosicao(pos) == null)
+            {
+                return null; 
+            }
+            Peca atual = RetornaPecaPosicao(pos);
+            atual.Posicao = null;
+            Pecas[pos.Linha, pos.Coluna] = null; 
+            return atual;
         }
     }
 }
