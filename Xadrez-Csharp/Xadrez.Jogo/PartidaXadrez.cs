@@ -62,5 +62,23 @@ namespace Xadrez.Jogo
             Tab.ColocarPeca(new Torre(Cor.PRETA, Tab), new PosicaoXadrez('e', 8).PosicaoXadrezParaMatriz());
             Tab.ColocarPeca(new Rei(Cor.PRETA, Tab), new PosicaoXadrez('d', 8).PosicaoXadrezParaMatriz());
         }
+
+        public void ValidarPosicaoOrigem(Posicao pos)
+        {
+            if(Tab.RetornaPecaPosicao(pos) == null)
+            {
+                throw new TabuleiroException("Não existe peça nessa posição (origem)");
+            }
+
+            if(JogadorAtual != Tab.RetornaPecaPosicao(pos).Cor)
+            {
+                throw new TabuleiroException("A peça escolhida não é sua"); 
+            }
+
+            if(!Tab.RetornaPecaPosicao(pos).ExisteMovimentosPossiveis())
+            {
+                throw new TabuleiroException("Não existe movimentos possíveis para essa peça.");
+            }
+        }
     }
 }

@@ -19,9 +19,26 @@
         {
             QtdMovimentos++;
         }
+        public bool ExisteMovimentosPossiveis()
+        {
+            //Vai retornar true se existir pelo menos um movimento possível;
+            bool[,] matExisteMovimentosPossiveis = MovimentosPossiveis();
+            for(int i = 0; i < Tab.Linhas; i++)
+            {
+                for (int j = 0; j < Tab.Colunas; j++)
+                {
+                    if (matExisteMovimentosPossiveis[i, j] == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false; 
+        }
 
         public abstract bool[,] MovimentosPossiveis();
         // Fazendo um método abstrato para aproveitar o método nas subclasses.
+
         
     }
 }
