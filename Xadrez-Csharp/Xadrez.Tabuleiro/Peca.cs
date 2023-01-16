@@ -1,6 +1,6 @@
 ﻿namespace Xadrez.Tabuleiro
 {
-    class Peca
+    abstract class Peca
     {   // Toda peça tem: Uma posição, cor, qtdmovimentos(peão) e está em um tabuleiro;
         public Posicao Posicao { get; set; }
         public Cor Cor { get; protected set; }
@@ -19,5 +19,9 @@
         {
             QtdMovimentos++;
         }
+
+        public abstract bool[,] MovimentosPossiveis();
+        // Fazendo um método abstrato para aproveitar o métodos nas subclasses.
+        // A classe Peca ficou abstrata a partir de agora. 
     }
 }

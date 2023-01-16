@@ -11,6 +11,13 @@
             Coluna = coluna;
         }
 
+        public void DefinirValoresPosicao(int linha, int coluna)
+        {
+            //Método para auxiliar na hora de mostrar os movimentos possíveis
+            Linha = linha;
+            Coluna = coluna;
+        }
+
         public override string ToString()
         {
             return $"{Linha}, {Coluna}";
