@@ -3,8 +3,10 @@ namespace Xadrez.Jogo
 {
     class Peao : Peca
     {
-        public Peao(Cor cor, Tabuleiro.Tabuleiro tab) : base(cor, tab)
+        private PartidaXadrez Partida { get; set; }
+        public Peao(Cor cor, Tabuleiro.Tabuleiro tab, PartidaXadrez partida) : base(cor, tab)
         {
+            Partida = partida; 
         }
 
         public override string ToString()
@@ -54,6 +56,22 @@ namespace Xadrez.Jogo
                 {
                     matMovimentosPossiveis[pos.Linha, pos.Coluna] = true;
                 }
+
+                // ## Lógica para o peão fazer um En Passant
+                if(Posicao.Linha == 3)
+                {
+                    Posicao esquerda = new Posicao(Posicao.Linha, Posicao.Coluna - 1); 
+                    if(Tab.PosicaoValida(esquerda) && ExisteInimigo(esquerda) && Tab.RetornaPecaPosicao(esquerda) == Partida.PodeEnPassant)
+                    {
+                        matMovimentosPossiveis[esquerda.Linha - 1, esquerda.Coluna] = true;
+                    }
+
+                    Posicao direita = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
+                    if (Tab.PosicaoValida(direita) && ExisteInimigo(direita) && Tab.RetornaPecaPosicao(direita) == Partida.PodeEnPassant)
+                    {
+                        matMovimentosPossiveis[direita.Linha - 1, direita.Coluna] = true;
+                    }
+                }
             }
             else
             {
@@ -79,6 +97,22 @@ namespace Xadrez.Jogo
                 if (Tab.PosicaoValida(pos) && ExisteInimigo(pos))
                 {
                     matMovimentosPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+
+                // ## Lógica para o peão fazer um En Passant
+                if (Posicao.Linha == 4)
+                {
+                    Posicao esquerda = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                    if (Tab.PosicaoValida(esquerda) && ExisteInimigo(esquerda) && Tab.RetornaPecaPosicao(esquerda) == Partida.PodeEnPassant)
+                    {
+                        matMovimentosPossiveis[esquerda.Linha + 1, esquerda.Coluna] = true;
+                    }
+
+                    Posicao direita = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
+                    if (Tab.PosicaoValida(direita) && ExisteInimigo(direita) && Tab.RetornaPecaPosicao(direita) == Partida.PodeEnPassant)
+                    {
+                        matMovimentosPossiveis[direita.Linha + 1, direita.Coluna] = true;
+                    }
                 }
             }
             return matMovimentosPossiveis;
