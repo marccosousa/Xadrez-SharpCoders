@@ -129,19 +129,41 @@ namespace Xadrez.Jogo
         private void ColocarPecas()
         {
             // Método auxiliar para colocar as peças iniciais no programa...
-            //ColocarNovaPeca('a', 1, new Torre(Cor.BRANCA, Tab));
+            //BRANCAS
+            ColocarNovaPeca('a', 1, new Torre(Cor.BRANCA, Tab));
             ColocarNovaPeca('b', 1, new Cavalo(Cor.BRANCA, Tab));
             ColocarNovaPeca('c', 1, new Bispo(Cor.BRANCA, Tab));
-            ColocarNovaPeca('d', 5, new Rainha(Cor.BRANCA, Tab));
-            ColocarNovaPeca('d', 1, new Rei(Cor.BRANCA, Tab));
+            ColocarNovaPeca('d', 1, new Rainha(Cor.BRANCA, Tab));
+            ColocarNovaPeca('e', 1, new Rei(Cor.BRANCA, Tab));
             ColocarNovaPeca('f', 1, new Bispo(Cor.BRANCA, Tab));
             ColocarNovaPeca('g', 1, new Cavalo(Cor.BRANCA, Tab));
             ColocarNovaPeca('h', 1, new Torre(Cor.BRANCA, Tab));
-            ColocarNovaPeca('c', 5, new Peao(Cor.BRANCA, Tab));
-            
-            ColocarNovaPeca('a', 8, new Rei(Cor.PRETA, Tab));
-            ColocarNovaPeca('b', 8, new Torre(Cor.PRETA, Tab));
+            ColocarNovaPeca('a', 2, new Peao(Cor.BRANCA, Tab));
+            ColocarNovaPeca('b', 2, new Peao(Cor.BRANCA, Tab));
+            ColocarNovaPeca('c', 2, new Peao(Cor.BRANCA, Tab));
+            ColocarNovaPeca('d', 2, new Peao(Cor.BRANCA, Tab));
+            ColocarNovaPeca('e', 2, new Peao(Cor.BRANCA, Tab));
+            ColocarNovaPeca('f', 2, new Peao(Cor.BRANCA, Tab));
+            ColocarNovaPeca('g', 2, new Peao(Cor.BRANCA, Tab));
+            ColocarNovaPeca('h', 2, new Peao(Cor.BRANCA, Tab));
 
+            //PRETAS
+            ColocarNovaPeca('a', 8, new Torre(Cor.PRETA, Tab));
+            ColocarNovaPeca('b', 8, new Cavalo(Cor.PRETA, Tab));
+            ColocarNovaPeca('c', 8, new Bispo(Cor.PRETA, Tab));
+            ColocarNovaPeca('d', 8, new Rainha(Cor.PRETA, Tab));
+            ColocarNovaPeca('e', 8, new Rei(Cor.PRETA, Tab));
+            ColocarNovaPeca('f', 8, new Bispo(Cor.PRETA, Tab));
+            ColocarNovaPeca('g', 8, new Cavalo(Cor.PRETA, Tab));
+            ColocarNovaPeca('h', 8, new Torre(Cor.PRETA, Tab));
+            ColocarNovaPeca('a', 7, new Peao(Cor.PRETA, Tab));
+            ColocarNovaPeca('b', 7, new Peao(Cor.PRETA, Tab));
+            ColocarNovaPeca('c', 7, new Peao(Cor.PRETA, Tab));
+            ColocarNovaPeca('d', 7, new Peao(Cor.PRETA, Tab));
+            ColocarNovaPeca('e', 7, new Peao(Cor.PRETA, Tab));
+            ColocarNovaPeca('f', 7, new Peao(Cor.PRETA, Tab));
+            ColocarNovaPeca('g', 7, new Peao(Cor.PRETA, Tab));
+            ColocarNovaPeca('h', 7, new Peao(Cor.PRETA, Tab));
         }
 
         //Métodos para controlar as movimentações
