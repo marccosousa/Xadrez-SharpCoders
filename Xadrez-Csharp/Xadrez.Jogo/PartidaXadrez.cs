@@ -33,6 +33,27 @@ namespace Xadrez.Jogo
             {
                 PecasCapturadas.Add(pecaCapturada);
             }
+
+            // ## Roque pequeno 
+            if(p is Rei && destino.Coluna == origem.Coluna + 2)
+            {
+                Posicao origemDaTorre = new Posicao(origem.Linha, origem.Coluna + 3); // A origem é feita em relação ao rei
+                Posicao destinoDaTorre = new Posicao(origem.Linha, origem.Coluna + 1);
+                Peca torre = Tab.RetirarPeca(origemDaTorre);
+                torre.IncrementarMovimento();
+                Tab.ColocarPeca(torre, destinoDaTorre); 
+            }
+
+            // ## Roque grande 
+            if (p is Rei && destino.Coluna == origem.Coluna - 2)
+            {
+                Posicao origemDaTorre = new Posicao(origem.Linha, origem.Coluna - 4);
+                Posicao destinoDaTorre = new Posicao(origem.Linha, origem.Coluna - 1);
+                Peca torre = Tab.RetirarPeca(origemDaTorre);
+                torre.IncrementarMovimento();
+                Tab.ColocarPeca(torre, destinoDaTorre);
+            }
+
             return pecaCapturada;
         }
 
@@ -67,7 +88,7 @@ namespace Xadrez.Jogo
 
         private void DesfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
         {
-            //Caso o movimento coloque a sua própria peça em xeque, o método desfaz o movimento
+            //Caso o movimento coloque a sua própria peça em xeque, esse método desfaz o movimento
             Peca p = Tab.RetirarPeca(destino);
             p.DecrementarMovimento();
             if (pecaCapturada != null)
@@ -76,6 +97,26 @@ namespace Xadrez.Jogo
                 PecasCapturadas.Remove(pecaCapturada);
             }
             Tab.ColocarPeca(p, origem);
+
+            // ## Roque pequeno -- desfazendo movimento da torre
+            if (p is Rei && destino.Coluna == origem.Coluna + 2)
+            {
+                Posicao origemDaTorre = new Posicao(origem.Linha, origem.Coluna + 3);
+                Posicao destinoDaTorre = new Posicao(origem.Linha, origem.Coluna + 1);
+                Peca torre = Tab.RetirarPeca(destinoDaTorre);
+                torre.DecrementarMovimento();
+                Tab.ColocarPeca(torre, origemDaTorre);
+            }
+
+            // ## Roque grande -- desfazendo movimento da torre
+            if (p is Rei && destino.Coluna == origem.Coluna - 2)
+            {
+                Posicao origemDaTorre = new Posicao(origem.Linha, origem.Coluna - 4);
+                Posicao destinoDaTorre = new Posicao(origem.Linha, origem.Coluna - 1);
+                Peca torre = Tab.RetirarPeca(destinoDaTorre);
+                torre.DecrementarMovimento();
+                Tab.ColocarPeca(torre, origemDaTorre);
+            }
         }
 
         private void MudaJogador()
