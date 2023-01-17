@@ -175,7 +175,7 @@ namespace Xadrez.Jogo
             ColocarNovaPeca('b', 1, new Cavalo(Cor.BRANCA, Tab));
             ColocarNovaPeca('c', 1, new Bispo(Cor.BRANCA, Tab));
             ColocarNovaPeca('d', 1, new Rainha(Cor.BRANCA, Tab));
-            ColocarNovaPeca('e', 1, new Rei(Cor.BRANCA, Tab));
+            ColocarNovaPeca('e', 1, new Rei(Cor.BRANCA, Tab, this));
             ColocarNovaPeca('f', 1, new Bispo(Cor.BRANCA, Tab));
             ColocarNovaPeca('g', 1, new Cavalo(Cor.BRANCA, Tab));
             ColocarNovaPeca('h', 1, new Torre(Cor.BRANCA, Tab));
@@ -193,7 +193,7 @@ namespace Xadrez.Jogo
             ColocarNovaPeca('b', 8, new Cavalo(Cor.PRETA, Tab));
             ColocarNovaPeca('c', 8, new Bispo(Cor.PRETA, Tab));
             ColocarNovaPeca('d', 8, new Rainha(Cor.PRETA, Tab));
-            ColocarNovaPeca('e', 8, new Rei(Cor.PRETA, Tab));
+            ColocarNovaPeca('e', 8, new Rei(Cor.PRETA, Tab, this));
             ColocarNovaPeca('f', 8, new Bispo(Cor.PRETA, Tab));
             ColocarNovaPeca('g', 8, new Cavalo(Cor.PRETA, Tab));
             ColocarNovaPeca('h', 8, new Torre(Cor.PRETA, Tab));

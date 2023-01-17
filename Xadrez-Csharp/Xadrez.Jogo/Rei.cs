@@ -113,7 +113,7 @@ namespace Xadrez.Jogo
                     Posicao vaga1 = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
                     Posicao vaga2 = new Posicao(Posicao.Linha, Posicao.Coluna - 2);
                     Posicao vaga3 = new Posicao(Posicao.Linha, Posicao.Coluna - 3);
-                    if (Tab.RetornaPecaPosicao(vaga1) == null && Tab.RetornaPecaPosicao(vaga2) == null && Tab.RetornaPecaPosicao(vaga3 == null))
+                    if (Tab.RetornaPecaPosicao(vaga1) == null && Tab.RetornaPecaPosicao(vaga2) == null && Tab.RetornaPecaPosicao(vaga3) == null)
                     {
                         matMovimentosPossiveis[Posicao.Linha, Posicao.Coluna - 2] = true;
                     }
