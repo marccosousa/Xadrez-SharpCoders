@@ -57,6 +57,20 @@ namespace XadrezConsole
             Console.WriteLine("  a b c d e f g h");
             Console.BackgroundColor = atual;
         }
+        public static void ImprimePecasCapturadas(PartidaXadrez partida)
+        {
+            Console.WriteLine("Peças capturadas: ");
+            Console.Write("Brancas: ");
+            ImprimeConjunto(partida.AddCapturadas(Cor.BRANCA));
+            Console.WriteLine();
+            Console.Write("Pretas: ");
+            ConsoleColor atual = Console.ForegroundColor; 
+            Console.ForegroundColor = ConsoleColor.Red;
+            ImprimeConjunto(partida.AddCapturadas(Cor.PRETA));
+            Console.ForegroundColor = atual; 
+            Console.WriteLine();
+            Console.WriteLine();
+        }
 
         public static void ImprimePeca(Peca peca)
         {
@@ -82,20 +96,6 @@ namespace XadrezConsole
             }
         }
 
-        public static void ImprimePecasCapturadas(PartidaXadrez partida)
-        {
-            Console.WriteLine("Peças capturadas: ");
-            Console.Write("Brancas: ");
-            ImprimeConjunto(partida.AddCapturadas(Cor.BRANCA));
-            Console.WriteLine();
-            Console.Write("Pretas: ");
-            ConsoleColor atual = Console.ForegroundColor; 
-            Console.ForegroundColor = ConsoleColor.Red;
-            ImprimeConjunto(partida.AddCapturadas(Cor.PRETA));
-            Console.ForegroundColor = atual; 
-            Console.WriteLine();
-            Console.WriteLine();
-        }
 
         public static void ImprimeConjunto(HashSet<Peca> conjuntopecas )
         {
