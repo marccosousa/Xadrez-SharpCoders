@@ -27,36 +27,42 @@ namespace Xadrez.Jogo
         {
             Peca p = Tab.RetirarPeca(origem);
             p.IncrementarMovimento();
-            Peca pecaCapturada = Tab.RetirarPeca(destino); 
+            Peca pecaCapturada = Tab.RetirarPeca(destino);
             Tab.ColocarPeca(p, destino);
             if (pecaCapturada != null)
             {
                 PecasCapturadas.Add(pecaCapturada);
             }
-            return pecaCapturada; 
+            return pecaCapturada;
         }
 
         public void RealizaJogada(Posicao origem, Posicao destino)
         {
             Peca pecaCapturada = RealizaMovimento(origem, destino);
-            
-            if(EstaEmXeque(JogadorAtual))
+
+            if (EstaEmXeque(JogadorAtual))
             {
                 DesfazMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroException("Não se coloque em xeque! Repita a jogada...");
             }
-            if(EstaEmXeque(Adversaria(JogadorAtual)))
+            if (EstaEmXeque(Adversaria(JogadorAtual)))
             {
-                Xeque = true; 
+                Xeque = true;
             }
             else
             {
-                Xeque = false; 
-            }           
+                Xeque = false;
+            }
 
-            Turno++;
-            MudaJogador();
-
+            if (EstaEmXequeMate(Adversaria(JogadorAtual)))
+            {
+                Terminada = true;
+            }
+            else
+            {
+                Turno++;
+                MudaJogador();
+            }
         }
 
         private void DesfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
@@ -64,9 +70,9 @@ namespace Xadrez.Jogo
             //Caso o movimento coloque a sua própria peça em xeque, o método desfaz o movimento
             Peca p = Tab.RetirarPeca(destino);
             p.DecrementarMovimento();
-            if(pecaCapturada != null)
+            if (pecaCapturada != null)
             {
-                Tab.ColocarPeca(pecaCapturada, destino); 
+                Tab.ColocarPeca(pecaCapturada, destino);
                 PecasCapturadas.Remove(pecaCapturada);
             }
             Tab.ColocarPeca(p, origem);
@@ -94,9 +100,9 @@ namespace Xadrez.Jogo
         {
             // Método para ver as peças capturadas de uma determinada cor.
             HashSet<Peca> temp = new HashSet<Peca>();
-            foreach(Peca x in PecasCapturadas)
+            foreach (Peca x in PecasCapturadas)
             {
-                if(x.Cor == cor)
+                if (x.Cor == cor)
                 {
                     temp.Add(x);
                 }
@@ -124,18 +130,11 @@ namespace Xadrez.Jogo
         {
             // Método auxiliar para colocar as peças iniciais no programa...
             ColocarNovaPeca('c', 1, new Torre(Cor.BRANCA, Tab));
-            ColocarNovaPeca('c', 2, new Torre(Cor.BRANCA, Tab));
-            ColocarNovaPeca('d', 2, new Torre(Cor.BRANCA, Tab));
-            ColocarNovaPeca('e', 2, new Torre(Cor.BRANCA, Tab));
-            ColocarNovaPeca('e', 1, new Torre(Cor.BRANCA, Tab));
             ColocarNovaPeca('d', 1, new Rei(Cor.BRANCA, Tab));
-
-            ColocarNovaPeca('c', 7, new Torre(Cor.PRETA, Tab));
-            ColocarNovaPeca('c', 8, new Torre(Cor.PRETA, Tab));
-            ColocarNovaPeca('d', 7, new Torre(Cor.PRETA, Tab));
-            ColocarNovaPeca('e', 7, new Torre(Cor.PRETA, Tab));
-            ColocarNovaPeca('e', 8, new Torre(Cor.PRETA, Tab));
-            ColocarNovaPeca('d', 8, new Rei(Cor.PRETA, Tab));
+            ColocarNovaPeca('h', 7, new Torre(Cor.BRANCA, Tab));
+            
+            ColocarNovaPeca('a', 8, new Rei(Cor.PRETA, Tab));
+            ColocarNovaPeca('b', 8, new Torre(Cor.PRETA, Tab));           
         }
 
         //Métodos para controlar as movimentações
@@ -164,11 +163,11 @@ namespace Xadrez.Jogo
                 throw new TabuleiroException("Posição de destino inválida");
             }
         }
-        
+
         //Métodos para a lógica de xeque
         private Cor Adversaria(Cor cor)
         {
-            if(cor == Cor.BRANCA)
+            if (cor == Cor.BRANCA)
             {
                 return Cor.PRETA;
             }
@@ -180,32 +179,68 @@ namespace Xadrez.Jogo
 
         private Peca Rei(Cor cor)
         {
-            foreach(Peca x in PecasEmJogo(cor))
+            foreach (Peca x in PecasEmJogo(cor))
             {
-                if(x is Rei) 
+                if (x is Rei)
                 {
-                    return x; 
+                    return x;
                 }
             }
-            return null; 
+            return null;
         }
 
         public bool EstaEmXeque(Cor cor)
         {
             // Se a posição do rei estiver dentro da matriz de movimentos possíveis de qualquer peça, retorna true
             Peca R = Rei(cor);
-            if(R == null)
+            if (R == null)
             {
                 throw new TabuleiroException("Sem rei;"); // Enquanto não é implementada a lógica de fim de jogo 
             }
-            foreach (Peca x in PecasEmJogo(Adversaria(cor))) {
+            foreach (Peca x in PecasEmJogo(Adversaria(cor)))
+            {
                 bool[,] matMovimentosPossiveis = x.MovimentosPossiveis();
                 if (matMovimentosPossiveis[R.Posicao.Linha, R.Posicao.Coluna])
                 {
-                    return true; 
+                    return true;
                 }
             }
-            return false; 
+            return false;
+        }
+
+        public bool EstaEmXequeMate(Cor cor)
+        {
+            if (!EstaEmXeque(cor))
+            {
+                return false;
+            }
+
+            foreach (Peca x in PecasEmJogo(cor))
+            {
+                // Método vai verificar cada movimento possível das peças em jogo - peça x
+                // Se pelo menos um movimento de alguma peça retirar do xeque, retorna false; 
+                // Se rodar a matriz inteira e não tiver movimento para retirar do xeque, return true e xeque mate
+                bool[,] matMovimentosPossiveis = x.MovimentosPossiveis();
+                for (int i = 0; i < Tab.Linhas; i++)
+                {
+                    for (int j = 0; j < Tab.Linhas; j++)
+                    {
+                        if (matMovimentosPossiveis[i, j]) // Se a posição tiver marcada como true, quer dizer que é um movimento possível
+                        {
+                            Posicao origem = x.Posicao; 
+                            Posicao destino = new Posicao(i, j);
+                            Peca pecaCapturada = RealizaMovimento(origem, destino); // Realizando movimento apenas para teste
+                            bool testeXeque = EstaEmXeque(cor); // Feito o teste, chamamos o método para desfazer o movimento
+                            DesfazMovimento(origem, destino, pecaCapturada);
+                            if (!testeXeque)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
     }
 }
