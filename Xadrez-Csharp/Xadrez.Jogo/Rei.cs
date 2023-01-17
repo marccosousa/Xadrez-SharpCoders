@@ -91,9 +91,10 @@ namespace Xadrez.Jogo
 
             // ### JOGADAS ESPECIAIS ###
 
-            // Roque pequeno
+            
             if(QtdMovimentos == 0 && !Partida.Xeque)
             {
+                // Roque pequeno
                 Posicao posicaoDaTorre = new Posicao(Posicao.Linha, Posicao.Coluna + 3); 
                 if(TesteTorreParaRoque(posicaoDaTorre))
                 {
@@ -104,7 +105,21 @@ namespace Xadrez.Jogo
                         matMovimentosPossiveis[Posicao.Linha, Posicao.Coluna + 2] = true; 
                     }
                 }
+
+                // Roque grande
+                Posicao posicaoDaTorre2 = new Posicao(Posicao.Linha, Posicao.Coluna - 4);
+                if (TesteTorreParaRoque(posicaoDaTorre2))
+                {
+                    Posicao vaga1 = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                    Posicao vaga2 = new Posicao(Posicao.Linha, Posicao.Coluna - 2);
+                    Posicao vaga3 = new Posicao(Posicao.Linha, Posicao.Coluna - 3);
+                    if (Tab.RetornaPecaPosicao(vaga1) == null && Tab.RetornaPecaPosicao(vaga2) == null && Tab.RetornaPecaPosicao(vaga3 == null))
+                    {
+                        matMovimentosPossiveis[Posicao.Linha, Posicao.Coluna - 2] = true;
+                    }
+                }
             }
+
 
 
             return matMovimentosPossiveis;
