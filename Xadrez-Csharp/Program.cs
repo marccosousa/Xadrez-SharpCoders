@@ -17,6 +17,7 @@ namespace XadrezConsole
                     {
                         Console.Clear();
                         Tela.ImprimePartida(partida);
+                        Console.WriteLine();
                         Console.Write("Posição da peça de origem: ");
                         Posicao origem = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
                         partida.ValidarPosicaoOrigem(origem);

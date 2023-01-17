@@ -14,6 +14,11 @@
             Tab = tab;
             QtdMovimentos = 0;
         }
+        
+        public void DecrementarMovimento()
+        {
+            QtdMovimentos--;
+        }
 
         public void IncrementarMovimento()
         {

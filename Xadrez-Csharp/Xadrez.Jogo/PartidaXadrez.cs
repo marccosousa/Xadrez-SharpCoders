@@ -9,6 +9,7 @@ namespace Xadrez.Jogo
         public bool Terminada { get; private set; }
         public HashSet<Peca> Pecas { get; private set; }
         public HashSet<Peca> PecasCapturadas { get; private set; }
+        public bool Xeque { get; private set; }
 
         public PartidaXadrez()
         {
@@ -18,10 +19,11 @@ namespace Xadrez.Jogo
             Terminada = false;
             Pecas = new HashSet<Peca>();
             PecasCapturadas = new HashSet<Peca>();
+            Xeque = false;
             ColocarPecas();
         }
 
-        public void RealizaMovimento(Posicao origem, Posicao destino)
+        public Peca RealizaMovimento(Posicao origem, Posicao destino)
         {
             Peca p = Tab.RetirarPeca(origem);
             p.IncrementarMovimento();
@@ -31,14 +33,43 @@ namespace Xadrez.Jogo
             {
                 PecasCapturadas.Add(pecaCapturada);
             }
+            return pecaCapturada; 
         }
 
         public void RealizaJogada(Posicao origem, Posicao destino)
         {
-            RealizaMovimento(origem, destino);
+            Peca pecaCapturada = RealizaMovimento(origem, destino);
+            
+            if(EstaEmXeque(JogadorAtual))
+            {
+                DesfazMovimento(origem, destino, pecaCapturada);
+                throw new TabuleiroException("Não se coloque em xeque! Repita a jogada...");
+            }
+            if(EstaEmXeque(Adversaria(JogadorAtual)))
+            {
+                Xeque = true; 
+            }
+            else
+            {
+                Xeque = false; 
+            }           
+
             Turno++;
             MudaJogador();
 
+        }
+
+        private void DesfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
+        {
+            //Caso o movimento coloque a sua própria peça em xeque, o método desfaz o movimento
+            Peca p = Tab.RetirarPeca(destino);
+            p.DecrementarMovimento();
+            if(pecaCapturada != null)
+            {
+                Tab.ColocarPeca(pecaCapturada, destino); 
+                PecasCapturadas.Remove(pecaCapturada);
+            }
+            Tab.ColocarPeca(p, origem);
         }
 
         private void MudaJogador()
@@ -88,6 +119,7 @@ namespace Xadrez.Jogo
             return temp;
         }
 
+
         private void ColocarPecas()
         {
             // Método auxiliar para colocar as peças iniciais no programa...
@@ -106,6 +138,7 @@ namespace Xadrez.Jogo
             ColocarNovaPeca('d', 8, new Rei(Cor.PRETA, Tab));
         }
 
+        //Métodos para controlar as movimentações
         public void ValidarPosicaoOrigem(Posicao pos)
         {
             if (Tab.RetornaPecaPosicao(pos) == null)
@@ -130,6 +163,49 @@ namespace Xadrez.Jogo
             {
                 throw new TabuleiroException("Posição de destino inválida");
             }
+        }
+        
+        //Métodos para a lógica de xeque
+        private Cor Adversaria(Cor cor)
+        {
+            if(cor == Cor.BRANCA)
+            {
+                return Cor.PRETA;
+            }
+            else
+            {
+                return Cor.BRANCA;
+            }
+        }
+
+        private Peca Rei(Cor cor)
+        {
+            foreach(Peca x in PecasEmJogo(cor))
+            {
+                if(x is Rei) 
+                {
+                    return x; 
+                }
+            }
+            return null; 
+        }
+
+        public bool EstaEmXeque(Cor cor)
+        {
+            // Se a posição do rei estiver dentro da matriz de movimentos possíveis de qualquer peça, retorna true
+            Peca R = Rei(cor);
+            if(R == null)
+            {
+                throw new TabuleiroException("Sem rei;"); // Enquanto não é implementada a lógica de fim de jogo 
+            }
+            foreach (Peca x in PecasEmJogo(Adversaria(cor))) {
+                bool[,] matMovimentosPossiveis = x.MovimentosPossiveis();
+                if (matMovimentosPossiveis[R.Posicao.Linha, R.Posicao.Coluna])
+                {
+                    return true; 
+                }
+            }
+            return false; 
         }
     }
 }
