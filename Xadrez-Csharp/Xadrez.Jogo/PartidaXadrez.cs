@@ -80,5 +80,13 @@ namespace Xadrez.Jogo
                 throw new TabuleiroException("Não existe movimentos possíveis para essa peça.");
             }
         }
+
+        public void ValidarPosicaoDestino(Posicao origem, Posicao destino)
+        {
+            if(!Tab.RetornaPecaPosicao(origem).PodeMoverPara(destino))
+            {
+                throw new TabuleiroException("Posição de destino inválida");
+            }
+        }
     }
 }

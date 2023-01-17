@@ -33,6 +33,7 @@ namespace XadrezConsole
                         Console.WriteLine();
                         Console.Write("Posição de destino da peça: ");
                         Posicao destino = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
+                        partida.ValidarPosicaoDestino(origem, destino); 
                         partida.RealizaJogada(origem, destino);
                     }
                     catch (TabuleiroException e)

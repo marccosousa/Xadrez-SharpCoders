@@ -36,9 +36,14 @@
             return false; 
         }
 
+        public bool PodeMoverPara(Posicao pos)
+        {
+            return MovimentosPossiveis()[pos.Linha, pos.Coluna]; 
+        }
+
         public abstract bool[,] MovimentosPossiveis();
         // Fazendo um método abstrato para aproveitar o método nas subclasses.
-
+        // O método faz o polimorfismo em tempo de execução
         
     }
 }
