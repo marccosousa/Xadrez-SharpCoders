@@ -87,6 +87,22 @@ namespace Xadrez.Jogo
                 DesfazMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroException("Não se coloque em xeque! Repita a jogada...");
             }
+
+            Peca p = Tab.RetornaPecaPosicao(destino);
+
+            //## Jogada promoção
+            if(p is Peao)
+            {
+                if((p.Cor == Cor.BRANCA && destino.Linha == 0) || (p.Cor == Cor.PRETA && destino.Linha == 7))
+                {
+                    p = Tab.RetirarPeca(destino);
+                    Pecas.Remove(p);
+                    Peca rainha = new Rainha(p.Cor, Tab);
+                    Tab.ColocarPeca(rainha, destino); 
+                    Pecas.Add(rainha);
+                }
+            }
+
             if (EstaEmXeque(Adversaria(JogadorAtual)))
             {
                 Xeque = true;
@@ -95,6 +111,7 @@ namespace Xadrez.Jogo
             {
                 Xeque = false;
             }
+
 
             if (EstaEmXequeMate(Adversaria(JogadorAtual)))
             {
@@ -106,7 +123,6 @@ namespace Xadrez.Jogo
                 MudaJogador();
             }
 
-            Peca p = Tab.RetornaPecaPosicao(destino);
             // ## En Passant
             if (p is Peao && (destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2))
             {   // Verificando se o peão moveu a primeira vez, se for true, ele pode levar um En Passant
