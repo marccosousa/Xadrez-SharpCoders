@@ -11,11 +11,11 @@ namespace XadrezConsole
             try
             {
                 PartidaXadrez partida = new PartidaXadrez();
+                partida.CadastrarJogadores();
                 while (!partida.Terminada)
                 {
                     try
                     {
-                        partida.CadastrarJogadores();
                         Console.Clear();
                         Tela.ImprimePartida(partida);
                         Console.WriteLine();
