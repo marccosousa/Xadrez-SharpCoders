@@ -15,6 +15,7 @@ namespace XadrezConsole
                 {
                     try
                     {
+                        partida.CadastrarJogadores();
                         Console.Clear();
                         Tela.ImprimePartida(partida);
                         Console.WriteLine();

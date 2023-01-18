@@ -6,6 +6,8 @@ namespace Xadrez.Jogo
         public Tabuleiro.Tabuleiro Tab { get; private set; }
         public int Turno { get; private set; }
         public Cor JogadorAtual { get; private set; }
+        public Jogador Jogador1 { get; private set ; }
+        public Jogador Jogador2 { get; private set; }
         public bool Terminada { get; private set; }
         public HashSet<Peca> Pecas { get; private set; }
         public HashSet<Peca> PecasCapturadas { get; private set; }
@@ -91,14 +93,14 @@ namespace Xadrez.Jogo
             Peca p = Tab.RetornaPecaPosicao(destino);
 
             //## Jogada promoção
-            if(p is Peao)
+            if (p is Peao)
             {
-                if((p.Cor == Cor.BRANCA && destino.Linha == 0) || (p.Cor == Cor.PRETA && destino.Linha == 7))
+                if ((p.Cor == Cor.BRANCA && destino.Linha == 0) || (p.Cor == Cor.PRETA && destino.Linha == 7))
                 {
                     p = Tab.RetirarPeca(destino);
                     Pecas.Remove(p);
                     Peca rainha = new Rainha(p.Cor, Tab);
-                    Tab.ColocarPeca(rainha, destino); 
+                    Tab.ColocarPeca(rainha, destino);
                     Pecas.Add(rainha);
                 }
             }
@@ -130,7 +132,7 @@ namespace Xadrez.Jogo
             }
             else
             {
-                PodeEnPassant = null; 
+                PodeEnPassant = null;
             }
         }
 
@@ -196,6 +198,21 @@ namespace Xadrez.Jogo
             {
                 JogadorAtual = Cor.BRANCA;
             }
+        }
+
+        public void CadastrarJogadores()
+        {
+            Console.WriteLine("Jogador 1 será a peça: " + JogadorAtual);
+            Console.Write("Digite o seu nome: ");
+            string nomeJogador1 = Console.ReadLine();
+            Jogador1 = new Jogador(nomeJogador1, JogadorAtual);
+            MudaJogador();
+            Console.WriteLine("Jogador 2 será a peça: " + JogadorAtual);
+            Console.Write("Digite o seu nome do Jogador 2: ");
+            string nomeJogador2 = Console.ReadLine();
+            Jogador2 = new Jogador(nomeJogador2, JogadorAtual);
+            MudaJogador();
+             
         }
 
         public void ColocarNovaPeca(char coluna, int linha, Peca p)

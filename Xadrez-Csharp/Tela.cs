@@ -23,7 +23,16 @@ namespace XadrezConsole
             else
             {
                 Console.WriteLine("XEQUE-MATE");
-                Console.WriteLine("Vencedor: " + partida.JogadorAtual);
+                if(partida.JogadorAtual == Cor.BRANCA)
+                {
+                    Console.WriteLine("Vencedor: " + partida.JogadorAtual + " - " + partida.Jogador1.Nome);
+                    partida.Jogador1.IncrementarVitorias();
+                }
+                else
+                {
+                    Console.WriteLine("Vencedor: " + partida.JogadorAtual + " - " + partida.Jogador2.Nome);
+                    partida.Jogador2.IncrementarVitorias();
+                }
             }
         }
         

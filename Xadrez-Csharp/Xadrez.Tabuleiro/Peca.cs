@@ -1,7 +1,7 @@
 ﻿namespace Xadrez.Tabuleiro
 {
     abstract class Peca
-    {   // Toda peça tem: Uma posição, cor, qtdmovimentos(peão) e está em um tabuleiro;
+    {   // Toda peça tem: Uma posição, cor, qtdmovimentos(peão, torre e rei) e está em um tabuleiro;
         public Posicao Posicao { get; set; }
         public Cor Cor { get; protected set; }
         public int QtdMovimentos { get; protected set; }
