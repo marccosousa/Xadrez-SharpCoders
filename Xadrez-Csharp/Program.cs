@@ -25,39 +25,40 @@ namespace XadrezConsole
                         Console.WriteLine(e.Message);
                         Console.WriteLine("Digite qualquer tecla para tentar novamente.");
                         Console.ReadKey();
-                        Console.Clear(); 
+                        Console.Clear();
                     }
                 }
-                    while (!partida.Terminada)
+                while (!partida.Terminada)
+                {
+                    try
                     {
-                        try
-                        {
-                            Tela.ImprimePartida(partida);
-                            Console.WriteLine();
-                            Console.Write("Posição da peça de origem: ");
-                            Posicao origem = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
-                            partida.ValidarPosicaoOrigem(origem);
+                        Console.Clear();
+                        Tela.ImprimePartida(partida);
+                        Console.WriteLine();
+                        Console.Write("Posição da peça de origem: ");
+                        Posicao origem = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
+                        partida.ValidarPosicaoOrigem(origem);
 
-                            bool[,] posicoesPossiveis = partida.Tab.RetornaPecaPosicao(origem).MovimentosPossiveis();
+                        bool[,] posicoesPossiveis = partida.Tab.RetornaPecaPosicao(origem).MovimentosPossiveis();
 
-                            Console.Clear();
-                            Tela.ImprimeTabuleiro(partida.Tab, posicoesPossiveis);
+                        Console.Clear();
+                        Tela.ImprimeTabuleiro(partida.Tab, posicoesPossiveis);
 
-                            Console.WriteLine();
-                            Console.Write("Posição de destino da peça: ");
-                            Posicao destino = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
-                            partida.ValidarPosicaoDestino(origem, destino);
-                            partida.RealizaJogada(origem, destino);
-                        }
-                        catch (TabuleiroException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            Console.ReadLine();
-                        }
+                        Console.WriteLine();
+                        Console.Write("Posição de destino da peça: ");
+                        Posicao destino = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
+                        partida.ValidarPosicaoDestino(origem, destino);
+                        partida.RealizaJogada(origem, destino);
                     }
-                    Console.Clear();
-                    Tela.ImprimePartida(partida);
+                    catch (TabuleiroException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
+                Console.Clear();
+                Tela.ImprimePartida(partida);
+            }
             catch (TabuleiroException e)
             {
                 Console.WriteLine(e.Message);
