@@ -3,15 +3,17 @@ namespace Xadrez.Jogo
 {
     class Jogador
     {
+        public string Login { get; set; }
+        public string Senha { get; set; }
         public string Nome { get; private set; }
         public Cor Cor { get; private set; }
         public int Vitorias { get; private set; }
-        public PartidaXadrez Partida { get; private set; }
-
-        public Jogador(string nome, Cor cor)
+        
+        public Jogador(string login, string senha, string nome)
         {
+            Login = login;
+            Senha = senha; 
             Nome = nome;
-            Cor = cor;
             Vitorias = 0; 
         }
 
