@@ -6,7 +6,6 @@ namespace Xadrez.Jogo
         public string Login { get; set; }
         public string Senha { get; set; }
         public string Nome { get; private set; }
-        public Cor Cor { get; private set; }
         public int Vitorias { get; private set; }
         
         public Jogador(string login, string senha, string nome)
@@ -24,7 +23,7 @@ namespace Xadrez.Jogo
 
         public override string ToString()
         {
-            return $"{Nome}, {Cor}"; 
+            return Nome;  ; 
         }
     }
 }

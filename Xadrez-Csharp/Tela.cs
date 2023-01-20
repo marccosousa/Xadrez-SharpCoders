@@ -14,7 +14,7 @@ namespace XadrezConsole
             Console.WriteLine("Turno: " + partida.Turno);
             if (!partida.Terminada)
             {
-                Console.WriteLine("Aguardando jogada da peça: " + partida.JogadorAtual);
+                Console.WriteLine("Aguardando jogada da peça: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado);
                 if (partida.Xeque)
                 {
                     Console.WriteLine("XEQUE!");
@@ -23,7 +23,7 @@ namespace XadrezConsole
             else
             {
                 Console.WriteLine("XEQUE-MATE");
-                Console.WriteLine("Vitória: " + partida.JogadorAtual);
+                Console.WriteLine("Vitória: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado);
             }
         }
 

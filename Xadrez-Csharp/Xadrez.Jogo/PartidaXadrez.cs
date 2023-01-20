@@ -7,6 +7,7 @@ namespace Xadrez.Jogo
         public Tabuleiro.Tabuleiro Tab { get; private set; }
         public int Turno { get; private set; }
         public Cor JogadorAtual { get; private set; }
+        public Jogador JogadorAtualLogado { get; private set; }
         public List<Jogador> Jogadores { get; private set; }
         public Jogador JogadorLogado1 { get; private set; }
         public Jogador JogadorLogado2 { get; private set; }
@@ -22,10 +23,10 @@ namespace Xadrez.Jogo
             Tab = new Tabuleiro.Tabuleiro(8, 8);
             Turno = 1;
             JogadorAtual = Cor.BRANCA;
+            Jogadores = new List<Jogador>();
             Terminada = false;
             Pecas = new HashSet<Peca>();
             PecasCapturadas = new HashSet<Peca>();
-            Jogadores = new List<Jogador>();
             Logado = false; 
             Xeque = false;
             PodeEnPassant = null;
@@ -46,6 +47,7 @@ namespace Xadrez.Jogo
                 if (JogadorLogado1 == null)
                 {
                     JogadorLogado1 = Jogadores.Find(x => x.Login == login && x.Senha == senha);
+                    JogadorAtualLogado = JogadorLogado1;
                 }
                 else
                 {
@@ -230,10 +232,12 @@ namespace Xadrez.Jogo
             if (JogadorAtual == Cor.BRANCA)
             {
                 JogadorAtual = Cor.PRETA;
+                JogadorAtualLogado = JogadorLogado2; 
             }
             else
             {
                 JogadorAtual = Cor.BRANCA;
+                JogadorAtualLogado = JogadorLogado1; 
             }
         }
 
