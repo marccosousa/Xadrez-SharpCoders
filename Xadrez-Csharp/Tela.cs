@@ -5,16 +5,16 @@ namespace XadrezConsole
 {
     class Tela
     {
-        
+
         public static void ImprimePartida(PartidaXadrez partida)
         {
             ImprimeTabuleiro(partida.Tab);
             Console.WriteLine();
-            ImprimePecasCapturadas(partida); 
+            ImprimePecasCapturadas(partida);
             Console.WriteLine("Turno: " + partida.Turno);
             if (!partida.Terminada)
             {
-                Console.WriteLine("Aguardando jogada da peça: " + partida.JogadorAtual);
+                Console.WriteLine("Aguardando jogada da peça: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado);
                 if (partida.Xeque)
                 {
                     Console.WriteLine("XEQUE!");
@@ -23,19 +23,10 @@ namespace XadrezConsole
             else
             {
                 Console.WriteLine("XEQUE-MATE");
-                if(partida.JogadorAtual == Cor.BRANCA)
-                {
-                    Console.WriteLine("Vencedor: " + partida.JogadorAtual + " - " + partida.Jogador1.Nome);
-                    partida.Jogador1.IncrementarVitorias();
-                }
-                else
-                {
-                    Console.WriteLine("Vencedor: " + partida.JogadorAtual + " - " + partida.Jogador2.Nome);
-                    partida.Jogador2.IncrementarVitorias();
-                }
+                Console.WriteLine("Vitória: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado);
             }
         }
-        
+
         public static void ImprimeTabuleiro(Tabuleiro tab)
         {
             for (int i = 0; i < tab.Linhas; i++)
@@ -60,15 +51,15 @@ namespace XadrezConsole
                 Console.Write(8 - i + " ");
                 for (int j = 0; j < tab.Colunas; j++)
                 {
-                    if (posicoesPossiveis[i,j])
+                    if (posicoesPossiveis[i, j])
                     {
-                        Console.BackgroundColor = alterarFundo; 
+                        Console.BackgroundColor = alterarFundo;
                     }
                     else
                     {
-                        Console.BackgroundColor = atual; 
+                        Console.BackgroundColor = atual;
                     }
-                    
+
                     ImprimePeca(tab.RetornaPeca(i, j));
                     Console.BackgroundColor = atual;
                 }
@@ -77,6 +68,60 @@ namespace XadrezConsole
             Console.WriteLine("  a b c d e f g h");
             Console.BackgroundColor = atual;
         }
+
+        public static void ImprimeCadastro(PartidaXadrez partida)
+        {
+            Console.WriteLine("---------- T E L A DE C A D A S T R O ----------");
+            Console.WriteLine();
+            Console.WriteLine("Olá! você precisa cadastrar 2 jogadores para começar!");
+            Console.WriteLine();
+            for (int i = 1; i <= 2; i++)
+            {
+                Console.Write($"Digite o login que deseja: ");
+                string login = Console.ReadLine();
+                Console.Write("Digite uma senha: ");
+                string senha = Console.ReadLine();
+                Console.Write("Digite o seu nome: ");
+                string nome = Console.ReadLine();
+                Console.WriteLine();
+                partida.RealizaCadastro(login, senha, nome);
+                Console.WriteLine($"{i}a cadastro realidado com sucesso!");
+                if(i == 1)
+                {
+                    Console.WriteLine("Aperte qualquer tecla para o próximo cadastro.");
+                    Console.ReadKey();
+                    Console.WriteLine();
+                }
+            }
+            Console.WriteLine("Cadastros feitos. Aperte qualquer tecla para ir até a tela de login.");
+            Console.ReadKey();
+        }
+
+        public static void ImprimeLogin(PartidaXadrez partida)
+        {
+            Console.WriteLine("---------- T E L A DE L O G I N ----------");
+            Console.WriteLine();
+            Console.Write($"Digite o login: ");
+            string login = Console.ReadLine();
+            Console.Write("Digite a sua senha: ");
+            string senha = Console.ReadLine();
+            bool usuarioLogado = partida.RealizaLogin(login, senha);
+            if (!usuarioLogado)
+            {
+                throw new PartidaException("Usuário ou senha inválidos.");
+            }
+            Console.WriteLine("Login efetuado com sucesso!");
+            Console.WriteLine("Pressione qualquer tecla para a próxima tela"); 
+            Console.ReadKey();
+            if(partida.JogadorLogado1 != null && partida.JogadorLogado2 != null)
+            {
+                Console.Write("Bem-vindos! " + partida.JogadorLogado1.Nome + " e ");
+                Console.WriteLine(partida.JogadorLogado2.Nome + "!! Espero que se divirtam!");
+                Console.WriteLine("Pressione qualquer tecla para ir para o jogo!");
+                Console.ReadKey();
+            }
+                       
+        }
         public static void ImprimePecasCapturadas(PartidaXadrez partida)
         {
             Console.WriteLine("Peças capturadas: ");
@@ -84,10 +129,10 @@ namespace XadrezConsole
             ImprimeConjunto(partida.AddCapturadas(Cor.BRANCA));
             Console.WriteLine();
             Console.Write("Pretas: ");
-            ConsoleColor atual = Console.ForegroundColor; 
+            ConsoleColor atual = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             ImprimeConjunto(partida.AddCapturadas(Cor.PRETA));
-            Console.ForegroundColor = atual; 
+            Console.ForegroundColor = atual;
             Console.WriteLine();
             Console.WriteLine();
         }
@@ -117,10 +162,10 @@ namespace XadrezConsole
         }
 
 
-        public static void ImprimeConjunto(HashSet<Peca> conjuntopecas )
+        public static void ImprimeConjunto(HashSet<Peca> conjuntopecas)
         {
             Console.Write("[ ");
-            foreach(Peca x in conjuntopecas)
+            foreach (Peca x in conjuntopecas)
             {
                 Console.Write(x + " ");
             }

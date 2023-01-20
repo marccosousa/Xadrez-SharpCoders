@@ -1,4 +1,5 @@
-﻿using Xadrez.Tabuleiro;
+﻿using System.IO;
+using Xadrez.Tabuleiro;
 namespace Xadrez.Jogo
 {
     class PartidaXadrez
@@ -6,8 +7,11 @@ namespace Xadrez.Jogo
         public Tabuleiro.Tabuleiro Tab { get; private set; }
         public int Turno { get; private set; }
         public Cor JogadorAtual { get; private set; }
-        public Jogador Jogador1 { get; private set ; }
-        public Jogador Jogador2 { get; private set; }
+        public Jogador JogadorAtualLogado { get; private set; }
+        public List<Jogador> Jogadores { get; private set; }
+        public Jogador JogadorLogado1 { get; private set; }
+        public Jogador JogadorLogado2 { get; private set; }
+        public bool Logado { get; private set; }
         public bool Terminada { get; private set; }
         public HashSet<Peca> Pecas { get; private set; }
         public HashSet<Peca> PecasCapturadas { get; private set; }
@@ -19,12 +23,55 @@ namespace Xadrez.Jogo
             Tab = new Tabuleiro.Tabuleiro(8, 8);
             Turno = 1;
             JogadorAtual = Cor.BRANCA;
+            Jogadores = new List<Jogador>();
             Terminada = false;
             Pecas = new HashSet<Peca>();
             PecasCapturadas = new HashSet<Peca>();
+            Logado = false;
             Xeque = false;
             PodeEnPassant = null;
             ColocarPecas();
+        }
+
+        public void RealizaCadastro(string login, string senha, string nome)
+        {
+            if (Jogadores.Exists(x => x.Login == login))
+            {
+                throw new PartidaException($"Usuário {login} já existe. Tente novamente.");
+            }
+            else
+            {
+                Jogador jogador = new Jogador(login, senha, nome);
+                Jogadores.Add(jogador); 
+            }
+            
+        }
+        public bool RealizaLogin(string login, string senha)
+        {
+            bool logarConta = Jogadores.Exists(x => x.Login == login && x.Senha == senha);
+
+            if (logarConta)
+            {
+                if (JogadorLogado1 == null)
+                {
+                    JogadorLogado1 = Jogadores.Find(x => x.Login == login && x.Senha == senha);
+                    JogadorAtualLogado = JogadorLogado1;
+                }
+                else
+                {
+                    if (Jogadores.Find(x => x.Login == login && x.Senha == senha) == JogadorLogado1)
+                    {
+                        throw new PartidaException("Esse usuário já está logado.");
+                    }
+                    else
+                    {
+                        JogadorLogado2 = Jogadores.Find(x => x.Login == login && x.Senha == senha);
+                        Logado = true;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
         public Peca RealizaMovimento(Posicao origem, Posicao destino)
@@ -193,26 +240,13 @@ namespace Xadrez.Jogo
             if (JogadorAtual == Cor.BRANCA)
             {
                 JogadorAtual = Cor.PRETA;
+                JogadorAtualLogado = JogadorLogado2;
             }
             else
             {
                 JogadorAtual = Cor.BRANCA;
+                JogadorAtualLogado = JogadorLogado1;
             }
-        }
-
-        public void CadastrarJogadores()
-        {
-            Console.WriteLine("Jogador 1 será a peça: " + JogadorAtual);
-            Console.Write("Digite o seu nome: ");
-            string nomeJogador1 = Console.ReadLine();
-            Jogador1 = new Jogador(nomeJogador1, JogadorAtual);
-            MudaJogador();
-            Console.WriteLine("Jogador 2 será a peça: " + JogadorAtual);
-            Console.Write("Digite o seu nome do Jogador 2: ");
-            string nomeJogador2 = Console.ReadLine();
-            Jogador2 = new Jogador(nomeJogador2, JogadorAtual);
-            MudaJogador();
-             
         }
 
         public void ColocarNovaPeca(char coluna, int linha, Peca p)

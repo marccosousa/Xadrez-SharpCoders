@@ -11,7 +11,34 @@ namespace XadrezConsole
             try
             {
                 PartidaXadrez partida = new PartidaXadrez();
-                partida.CadastrarJogadores();
+
+                try
+                {
+                    Tela.ImprimeCadastro(partida);
+                }
+                catch (PartidaException e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Digite qualquer tecla.");
+                    Console.ReadKey();
+                }
+
+                Console.Clear();
+                while (!partida.Logado)
+                {
+                    try
+                    {
+                        Tela.ImprimeLogin(partida);
+                        Console.Clear();
+                    }
+                    catch (PartidaException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.WriteLine("Digite qualquer tecla para tentar novamente.");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                }
                 while (!partida.Terminada)
                 {
                     try
@@ -31,7 +58,7 @@ namespace XadrezConsole
                         Console.WriteLine();
                         Console.Write("Posição de destino da peça: ");
                         Posicao destino = Tela.LerPosicaoXadrez().PosicaoXadrezParaMatriz();
-                        partida.ValidarPosicaoDestino(origem, destino); 
+                        partida.ValidarPosicaoDestino(origem, destino);
                         partida.RealizaJogada(origem, destino);
                     }
                     catch (TabuleiroException e)
