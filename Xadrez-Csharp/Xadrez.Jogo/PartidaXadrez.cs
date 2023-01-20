@@ -27,7 +27,7 @@ namespace Xadrez.Jogo
             Terminada = false;
             Pecas = new HashSet<Peca>();
             PecasCapturadas = new HashSet<Peca>();
-            Logado = false; 
+            Logado = false;
             Xeque = false;
             PodeEnPassant = null;
             ColocarPecas();
@@ -35,13 +35,21 @@ namespace Xadrez.Jogo
 
         public void RealizaCadastro(string login, string senha, string nome)
         {
-            Jogador jogador = new Jogador(login, senha, nome);
-            Jogadores.Add(jogador);
+            if (Jogadores.Exists(x => x.Login == login))
+            {
+                throw new PartidaException($"Usuário {login} já existe. Tente novamente.");
+            }
+            else
+            {
+                Jogador jogador = new Jogador(login, senha, nome);
+                Jogadores.Add(jogador); 
+            }
+            
         }
         public bool RealizaLogin(string login, string senha)
         {
             bool logarConta = Jogadores.Exists(x => x.Login == login && x.Senha == senha);
-            
+
             if (logarConta)
             {
                 if (JogadorLogado1 == null)
@@ -51,16 +59,16 @@ namespace Xadrez.Jogo
                 }
                 else
                 {
-                    if(Jogadores.Find(x => x.Login == login && x.Senha == senha) == JogadorLogado1)
+                    if (Jogadores.Find(x => x.Login == login && x.Senha == senha) == JogadorLogado1)
                     {
                         throw new PartidaException("Esse usuário já está logado.");
                     }
                     else
                     {
                         JogadorLogado2 = Jogadores.Find(x => x.Login == login && x.Senha == senha);
-                        Logado = true; 
+                        Logado = true;
                     }
-                }                
+                }
                 return true;
             }
             return false;
@@ -232,12 +240,12 @@ namespace Xadrez.Jogo
             if (JogadorAtual == Cor.BRANCA)
             {
                 JogadorAtual = Cor.PRETA;
-                JogadorAtualLogado = JogadorLogado2; 
+                JogadorAtualLogado = JogadorLogado2;
             }
             else
             {
                 JogadorAtual = Cor.BRANCA;
-                JogadorAtualLogado = JogadorLogado1; 
+                JogadorAtualLogado = JogadorLogado1;
             }
         }
 

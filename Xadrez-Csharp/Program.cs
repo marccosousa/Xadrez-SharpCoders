@@ -11,7 +11,18 @@ namespace XadrezConsole
             try
             {
                 PartidaXadrez partida = new PartidaXadrez();
-                Tela.ImprimeCadastro(partida);
+
+                try
+                {
+                    Tela.ImprimeCadastro(partida);
+                }
+                catch (PartidaException e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Digite qualquer tecla.");
+                    Console.ReadKey();
+                }
+
                 Console.Clear();
                 while (!partida.Logado)
                 {
