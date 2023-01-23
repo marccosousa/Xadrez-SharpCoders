@@ -24,6 +24,14 @@ namespace XadrezConsole
             {
                 Console.WriteLine("XEQUE-MATE");
                 Console.WriteLine("Vitória: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado);
+                if(partida.JogadorAtualLogado == partida.JogadorLogado1)
+                {
+                    partida.JogadorLogado1.IncrementarVitorias();
+                }
+                else
+                {
+                    partida.JogadorLogado2.IncrementarVitorias();
+                }
             }
         }
 
