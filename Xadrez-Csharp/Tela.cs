@@ -69,6 +69,45 @@ namespace XadrezConsole
             Console.BackgroundColor = atual;
         }
 
+        public static void ImprimeLoginOuCadastro(PartidaXadrez partida)
+        {
+            Console.WriteLine("Se vocês já têm conta e precisam logar - [1]");
+            Console.WriteLine("Se vocês precisam se cadastrar - [2]");
+            int opcao = int.Parse(Console.ReadLine()); 
+            switch(opcao)
+            {
+                case 1:
+                    while (!partida.Logado)
+                    {
+                        try
+                        {
+                            ImprimeLogin(partida);
+                            Console.Clear();
+                        }
+                        catch (PartidaException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("Digite qualquer tecla para tentar novamente.");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                    }
+                    break;
+                case 2:
+                    try
+                    {
+                        ImprimeCadastro(partida);
+                    }
+                    catch (PartidaException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.WriteLine("Digite qualquer tecla.");
+                        Console.ReadKey();
+                    }
+                    break; 
+            }
+        }
+
         public static void ImprimeCadastro(PartidaXadrez partida)
         {
             Console.WriteLine("---------- T E L A DE C A D A S T R O ----------");

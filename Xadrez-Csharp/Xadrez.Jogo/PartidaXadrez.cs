@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.Json;
 using Xadrez.Tabuleiro;
 namespace Xadrez.Jogo
 {
@@ -17,13 +18,23 @@ namespace Xadrez.Jogo
         public HashSet<Peca> PecasCapturadas { get; private set; }
         public bool Xeque { get; private set; }
         public Peca PodeEnPassant { get; private set; }
+        public string fileName = "jogadores.json"; // Arquivo com diretório local
 
         public PartidaXadrez()
         {
             Tab = new Tabuleiro.Tabuleiro(8, 8);
             Turno = 1;
-            JogadorAtual = Cor.BRANCA;
-            Jogadores = new List<Jogador>();
+            JogadorAtual = Cor.BRANCA;           
+            FileInfo fi = new FileInfo(fileName);
+            if (fi.Length == 0)
+            {
+                Jogadores = new List<Jogador>();
+            }
+            else
+            {
+                string desJson = File.ReadAllText(fileName);
+                Jogadores = JsonSerializer.Deserialize<List<Jogador>>(desJson)!;
+            }
             Terminada = false;
             Pecas = new HashSet<Peca>();
             PecasCapturadas = new HashSet<Peca>();
@@ -42,7 +53,10 @@ namespace Xadrez.Jogo
             else
             {
                 Jogador jogador = new Jogador(login, senha, nome);
-                Jogadores.Add(jogador); 
+                Jogadores.Add(jogador);
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                string jsonString = JsonSerializer.Serialize(Jogadores, options);
+                File.WriteAllText(fileName, jsonString);
             }
             
         }
