@@ -170,8 +170,8 @@ namespace XadrezConsole
                 throw new PartidaException("Usuário ou senha inválidos.");
             }
             Console.WriteLine("Login efetuado com sucesso!");
-            Console.WriteLine("Pressione qualquer tecla para o próximo login");
             Console.ReadKey();
+            Console.Clear();
             if (partida.JogadorLogado1 != null && partida.JogadorLogado2 != null)
             {
                 Console.Write("Bem-vindos! " + partida.JogadorLogado1.Nome + " e ");
