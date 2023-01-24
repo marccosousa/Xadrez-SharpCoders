@@ -24,7 +24,7 @@ namespace XadrezConsole
             {
                 Console.WriteLine("XEQUE-MATE");
                 Console.WriteLine("Vitória: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado);
-                if(partida.JogadorAtualLogado == partida.JogadorLogado1)
+                if (partida.JogadorAtualLogado == partida.JogadorLogado1)
                 {
                     partida.JogadorLogado1.IncrementarVitorias();
                 }
@@ -79,69 +79,81 @@ namespace XadrezConsole
 
         public static void ImprimeLoginOuCadastro(PartidaXadrez partida)
         {
-            Console.WriteLine("Se vocês já têm conta e precisam logar - [1]");
-            Console.WriteLine("Se vocês precisam se cadastrar - [2]");
-            int opcao = int.Parse(Console.ReadLine()); 
-            switch(opcao)
+            int opcao;
+            do
             {
-                case 1:
-                    while (!partida.Logado)
-                    {
+                Console.Clear();
+                Console.WriteLine("---------- M E N U  I N I C I A L ---------");
+                Console.WriteLine("Se vocês já têm conta e precisam logar - [1]");
+                Console.WriteLine("Se vocês precisam se cadastrar - [2]");
+                Console.WriteLine("Mostrar jogadores cadastrados - [3]");
+                Console.Write("Digite a sua opção: ");
+                opcao = int.Parse(Console.ReadLine());
+                Console.Clear();
+                switch (opcao)
+                {
+
+                    case 1:
+                        while (!partida.Logado)
+                        {
+                            try
+                            {
+                                ImprimeLogin(partida);
+                                Console.Clear();
+                            }
+                            catch (PartidaException e)
+                            {
+                                Console.WriteLine(e.Message);
+                                Console.WriteLine("Digite qualquer tecla para tentar novamente.");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+                        }
+                        break;
+                    case 2:
                         try
                         {
-                            ImprimeLogin(partida);
-                            Console.Clear();
+                            ImprimeCadastro(partida);
+                            Console.WriteLine("Cadastro realizado.");
+                            Console.WriteLine("Digite qualquer tecla para o menu anterior.");
+                            Console.ReadKey();
                         }
                         catch (PartidaException e)
                         {
                             Console.WriteLine(e.Message);
-                            Console.WriteLine("Digite qualquer tecla para tentar novamente.");
+                            Console.WriteLine("Digite qualquer tecla.");
                             Console.ReadKey();
-                            Console.Clear();
                         }
-                    }
-                    break;
-                case 2:
-                    try
-                    {
-                        ImprimeCadastro(partida);
-                    }
-                    catch (PartidaException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        Console.WriteLine("Digite qualquer tecla.");
+                        break;
+                    case 3:
+                        ImprimeJogadores(partida);
+                        Console.WriteLine("Digite qualquer tecla para o menu anterior.");
                         Console.ReadKey();
-                    }
-                    break; 
-            }
+                        break;
+                    default:
+                        Console.WriteLine("Número inválido. Digite qualquer tecla para o menu anterior.");
+                        Console.ReadKey();
+                        break;
+                }
+            } while (opcao < 1 || opcao > 3 || !partida.Logado);
         }
 
         public static void ImprimeCadastro(PartidaXadrez partida)
         {
             Console.WriteLine("---------- T E L A DE C A D A S T R O ----------");
             Console.WriteLine();
-            Console.WriteLine("Olá! você precisa cadastrar 2 jogadores para começar!");
+            Console.WriteLine("Olá! Cadastre seu usuário: !");
             Console.WriteLine();
-            for (int i = 1; i <= 2; i++)
-            {
-                Console.Write($"Digite o login que deseja: ");
-                string login = Console.ReadLine();
-                Console.Write("Digite uma senha: ");
-                string senha = Console.ReadLine();
-                Console.Write("Digite o seu nome: ");
-                string nome = Console.ReadLine();
-                Console.WriteLine();
-                partida.RealizaCadastro(login, senha, nome);
-                Console.WriteLine($"{i}a cadastro realidado com sucesso!");
-                if(i == 1)
-                {
-                    Console.WriteLine("Aperte qualquer tecla para o próximo cadastro.");
-                    Console.ReadKey();
-                    Console.WriteLine();
-                }
-            }
-            Console.WriteLine("Cadastros feitos. Aperte qualquer tecla para ir até a tela de login.");
-            Console.ReadKey();
+            Console.Write($"Digite o login que deseja: ");
+            string login = Console.ReadLine();
+            Console.Write("Digite uma senha: ");
+            string senha = Console.ReadLine();
+            Console.Write("Digite o seu nome: ");
+            string nome = Console.ReadLine();
+            Console.WriteLine();
+            partida.RealizaCadastro(login, senha, nome);
+            Console.WriteLine($"Cadastro realidado com sucesso!");
+
         }
 
         public static void ImprimeLogin(PartidaXadrez partida)
@@ -158,16 +170,26 @@ namespace XadrezConsole
                 throw new PartidaException("Usuário ou senha inválidos.");
             }
             Console.WriteLine("Login efetuado com sucesso!");
-            Console.WriteLine("Pressione qualquer tecla para a próxima tela"); 
+            Console.WriteLine("Pressione qualquer tecla para o próximo login");
             Console.ReadKey();
-            if(partida.JogadorLogado1 != null && partida.JogadorLogado2 != null)
+            if (partida.JogadorLogado1 != null && partida.JogadorLogado2 != null)
             {
                 Console.Write("Bem-vindos! " + partida.JogadorLogado1.Nome + " e ");
                 Console.WriteLine(partida.JogadorLogado2.Nome + "!! Espero que se divirtam!");
                 Console.WriteLine("Pressione qualquer tecla para ir para o jogo!");
                 Console.ReadKey();
             }
-                       
+
+        }
+
+        public static void ImprimeJogadores(PartidaXadrez partida)
+        {
+            Console.WriteLine("Jogadores cadastrados: ");
+            foreach (Jogador j in partida.Jogadores)
+            {
+                Console.WriteLine($"Login: {j.Login} | Nome: {j.Nome} | Vitórias: {j.Vitorias}");
+                Console.WriteLine();
+            }
         }
         public static void ImprimePecasCapturadas(PartidaXadrez partida)
         {
