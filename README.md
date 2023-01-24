@@ -12,7 +12,7 @@ Nesse programa você jogará xadrez com as mesmas regras do xadrez internacional
  <a href="#autor">Autor</a>
 </p>
 
-<h2 align="center" id="demonstracao"> Demonstração de um início da partida </h2>
+<h2 align="center" id="demonstracao"> Demonstração de início da partida </h2>
 
 <h1 align="center">
   <img width="230px" height="230px" alt="img1" title="img1" src="./assets/img1.PNG" />
