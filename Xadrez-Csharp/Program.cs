@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Text.Json;
 using Xadrez.Jogo;
 using Xadrez.Tabuleiro;
 
@@ -12,9 +13,7 @@ namespace XadrezConsole
             {
                 PartidaXadrez partida = new PartidaXadrez();
                 Tela.ImprimeLoginOuCadastro(partida);
-
                 Console.Clear();
-                
                 while (!partida.Terminada)
                 {
                     try

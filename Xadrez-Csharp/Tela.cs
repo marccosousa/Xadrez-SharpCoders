@@ -14,7 +14,7 @@ namespace XadrezConsole
             Console.WriteLine("Turno: " + partida.Turno);
             if (!partida.Terminada)
             {
-                Console.WriteLine("Aguardando jogada da peça: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado);
+                Console.WriteLine("Aguardando jogada da peça: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado.Nome);
                 if (partida.Xeque)
                 {
                     Console.WriteLine("XEQUE!");
@@ -23,15 +23,7 @@ namespace XadrezConsole
             else
             {
                 Console.WriteLine("XEQUE-MATE");
-                Console.WriteLine("Vitória: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado);
-                if (partida.JogadorAtualLogado == partida.JogadorLogado1)
-                {
-                    partida.JogadorLogado1.IncrementarVitorias();
-                }
-                else
-                {
-                    partida.JogadorLogado2.IncrementarVitorias();
-                }
+                Console.WriteLine("Vitória: " + partida.JogadorAtual + " - " + partida.JogadorAtualLogado.Nome);
             }
         }
 
@@ -187,7 +179,7 @@ namespace XadrezConsole
             Console.WriteLine("Jogadores cadastrados: ");
             foreach (Jogador j in partida.Jogadores)
             {
-                Console.WriteLine($"Login: {j.Login} | Nome: {j.Nome} | Vitórias: {j.Vitorias}");
+                Console.WriteLine(j);
                 Console.WriteLine();
             }
         }

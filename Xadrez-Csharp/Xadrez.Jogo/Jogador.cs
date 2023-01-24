@@ -13,7 +13,6 @@ namespace Xadrez.Jogo
             Login = login;
             Senha = senha; 
             Nome = nome;
-            Vitorias = 0; 
         }
 
         public void IncrementarVitorias()
@@ -23,7 +22,7 @@ namespace Xadrez.Jogo
 
         public override string ToString()
         {
-            return Nome;  ; 
+            return $"Login: {Login} | Nome: {Nome} | Vitórias: {Vitorias}";
         }
     }
 }
